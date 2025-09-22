@@ -102,8 +102,10 @@ def init_fedot(
     n_jobs: int = -1,
     logging_level: int = 50,
     seed: int = 42,
+    initial_assumption: Optional[Pipeline] = None,
+    cv_folds: int = 10,
+    metric: str = "rmse",
 ) -> Fedot:
-    initial_assumption = Pipeline(PipelineNode("rfr"))
     return Fedot(
         problem=problem,
         timeout=timeout,
@@ -111,6 +113,8 @@ def init_fedot(
         logging_level=logging_level,
         seed=seed,
         initial_assumption=initial_assumption,
+        cv_folds=cv_folds,
+        metric=metric,
     )
 
 
