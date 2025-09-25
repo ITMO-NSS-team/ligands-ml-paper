@@ -190,15 +190,15 @@ def run_fedot(
     dataset_dir = os.path.join(save_path, dataset_name)
     os.makedirs(dataset_dir, exist_ok=True)
 
-    cv_scores = cross_validate(
-        X, y, dataset_name, save_path,
-        n_splits=n_splits,
-        k_percent=k_percent,
-        score_func=score_func,
-        random_state=random_state,
-        fedot_kwargs=fedot_kwargs,
-    )
-    print("CV results:", cv_scores)
+    # cv_scores = cross_validate(
+    #     X, y, dataset_name, save_path,
+    #     n_splits=n_splits,
+    #     k_percent=k_percent,
+    #     score_func=score_func,
+    #     random_state=random_state,
+    #     fedot_kwargs=fedot_kwargs,
+    # )
+    # print("CV results:", cv_scores)
 
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=random_state
@@ -226,7 +226,7 @@ def run_fedot(
     print(f"Pipeline saved to {pipeline_path}")
 
     return {
-        "cv_scores": cv_scores,
+        "cv_scores": {},
         "test_rmse": test_rmse,
         "test_r2": test_r2,
         "test_mae": test_mae,
