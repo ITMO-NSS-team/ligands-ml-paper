@@ -1,0 +1,171 @@
+{
+    "Gd_ctopo_fp_cmplx_da": {
+        "all": {
+            "fs_func": "none",
+            "k_percent": null,
+            "results": {
+                "cv_scores": {},
+                "test_rmse": 3.6635227606901477,
+                "test_r2": 0.30817960201455097,
+                "test_mae": 2.8913759689326897,
+                "pipeline_path": "results\\Gd_ctopo_fp_cmplx_da\\all_none_train_test_pipeline.json"
+            }
+        }
+    },
+    "Gd_ctopo_fp_cmplx_da_bonds": {
+        "all": {
+            "fs_func": "none",
+            "k_percent": null,
+            "results": {
+                "cv_scores": {},
+                "test_rmse": 3.5890915963902876,
+                "test_r2": 0.33600522987688586,
+                "test_mae": 2.8363342950601353,
+                "pipeline_path": "results\\Gd_ctopo_fp_cmplx_da_bonds\\all_none_train_test_pipeline.json"
+            }
+        }
+    },
+    "Gd_ctopo_fp_cmplx_da_sub": {
+        "all": {
+            "fs_func": "none",
+            "k_percent": null,
+            "results": {
+                "cv_scores": {},
+                "test_rmse": 3.6308407269030374,
+                "test_r2": 0.3204679089428647,
+                "test_mae": 2.9254998774781593,
+                "pipeline_path": "results\\Gd_ctopo_fp_cmplx_da_sub\\all_none_train_test_pipeline.json"
+            }
+        }
+    },
+    "Gd_ctopo_fp_cmplx_da_sub_bonds": {
+        "all": {
+            "fs_func": "none",
+            "k_percent": null,
+            "results": {
+                "cv_scores": {},
+                "test_rmse": 3.9735355108771024,
+                "test_r2": 0.18613987293361256,
+                "test_mae": 3.0638270399019762,
+                "pipeline_path": "results\\Gd_ctopo_fp_cmplx_da_sub_bonds\\all_none_train_test_pipeline.json"
+            }
+        }
+    },
+    "Gd_ctopo_fp_cmplx_full": {
+        "all": {
+            "fs_func": "none",
+            "k_percent": null,
+            "results": {
+                "cv_scores": {},
+                "test_rmse": 3.656834552091355,
+                "test_r2": 0.3107033016467594,
+                "test_mae": 2.7946363145654853,
+                "pipeline_path": "results\\Gd_ctopo_fp_cmplx_full\\all_none_train_test_pipeline.json"
+            }
+        }
+    },
+    "Gd_ctopo_fp_ligand": {
+        "all": {
+            "fs_func": "none",
+            "k_percent": null,
+            "results": {
+                "cv_scores": {},
+                "test_rmse": 3.6701375790452904,
+                "test_r2": 0.3056790592334645,
+                "test_mae": 2.891006524876099,
+                "pipeline_path": "results\\Gd_ctopo_fp_ligand\\all_none_train_test_pipeline.json"
+            }
+        }
+    },
+    "Gd_ctopo_fp_skl": {
+        "all": {
+            "fs_func": "none",
+            "k_percent": null,
+            "results": {
+                "cv_scores": {},
+                "test_rmse": 3.858259820916433,
+                "test_r2": 0.2326764712512519,
+                "test_mae": 3.0754159797321665,
+                "pipeline_path": "results\\Gd_ctopo_fp_skl\\all_none_train_test_pipeline.json"
+            }
+        }
+    },
+    "Gd_ctopo_fp_skl_da": {
+        "all": {
+            "fs_func": "none",
+            "k_percent": null,
+            "results": {
+                "cv_scores": {},
+                "test_rmse": 3.888381470783983,
+                "test_r2": 0.22064862751666792,
+                "test_mae": 3.0096970252134216,
+                "pipeline_path": "results\\Gd_ctopo_fp_skl_da\\all_none_train_test_pipeline.json"
+            }
+        }
+    },
+    "Gd_ctopo_fp_skl_da_bonds": {
+        "all": {
+            "fs_func": "none",
+            "k_percent": null,
+            "results": {
+                "cv_scores": {},
+                "test_rmse": 4.325976294446709,
+                "test_r2": 0.03536315695625247,
+                "test_mae": 3.423850992368867,
+                "pipeline_path": "results\\Gd_ctopo_fp_skl_da_bonds\\all_none_train_test_pipeline.json"
+            }
+        }
+    },
+    "Gd_ctopo_fp_skl_da_skl": {
+        "all": {
+            "fs_func": "none",
+            "k_percent": null,
+            "results": {
+                "cv_scores": {},
+                "test_rmse": 3.782568650047074,
+                "test_r2": 0.26248779413834755,
+                "test_mae": 3.0482800248579878,
+                "pipeline_path": "results\\Gd_ctopo_fp_skl_da_skl\\all_none_train_test_pipeline.json"
+            }
+        }
+    },
+    "Gd_ctopo_fp_skl_da_skl_bonds": {
+        "all": {
+            "fs_func": "none",
+            "k_percent": null,
+            "results": {
+                "cv_scores": {},
+                "test_rmse": 3.6902855853295504,
+                "test_r2": 0.29803488749169904,
+                "test_mae": 2.7443382183786666,
+                "pipeline_path": "results\\Gd_ctopo_fp_skl_da_skl_bonds\\all_none_train_test_pipeline.json"
+            }
+        }
+    },
+    "Gd_ctopo_fp_topo": {
+        "all": {
+            "fs_func": "none",
+            "k_percent": null,
+            "results": {
+                "cv_scores": {},
+                "test_rmse": 4.24576547387871,
+                "test_r2": 0.07080347519427,
+                "test_mae": 3.5616229074061194,
+                "pipeline_path": "results\\Gd_ctopo_fp_topo\\all_none_train_test_pipeline.json"
+            }
+        }
+    },
+    "Gd_ctopo_fp_topo_da": {
+        "all": {
+            "fs_func": "none",
+            "k_percent": null,
+            "results": {
+                "cv_scores": {},
+                "test_rmse": 4.1718603286418965,
+                "test_r2": 0.10287058841649899,
+                "test_mae": 3.3588223327289923,
+                "pipeline_path": "results\\Gd_ctopo_fp_topo_da\\all_none_train_test_pipeline.json"
+            }
+        }
+    }
+}

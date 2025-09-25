@@ -1,0 +1,14 @@
+dataset,features_percent,fs_func,pipeline_ops,depth,fold,stage,rmse,mae,r2
+Gd_ctopo_fp_cmplx_da,all,none,"['isolation_forest_reg', 'catboostreg']",2,,train_test,3.6635227606901477,2.8913759689326897,0.30817960201455097
+Gd_ctopo_fp_cmplx_da_bonds,all,none,"['poly_features', 'catboostreg']",2,,train_test,3.5890915963902876,2.8363342950601353,0.33600522987688586
+Gd_ctopo_fp_cmplx_da_sub,all,none,['ridge'],1,,train_test,3.6308407269030374,2.9254998774781593,0.3204679089428647
+Gd_ctopo_fp_cmplx_da_sub_bonds,all,none,"['isolation_forest_reg', 'catboostreg']",2,,train_test,3.9735355108771024,3.0638270399019762,0.18613987293361256
+Gd_ctopo_fp_cmplx_full,all,none,"['isolation_forest_reg', 'catboostreg', 'ransac_non_lin_reg', 'xgboostreg']",3,,train_test,3.656834552091355,2.7946363145654853,0.3107033016467594
+Gd_ctopo_fp_ligand,all,none,"['isolation_forest_reg', 'scaling', 'ransac_non_lin_reg', 'svr', 'normalization', 'catboostreg']",6,,train_test,3.6701375790452904,2.891006524876099,0.3056790592334645
+Gd_ctopo_fp_skl,all,none,"['dtreg', 'xgboostreg']",2,,train_test,3.858259820916433,3.0754159797321665,0.2326764712512519
+Gd_ctopo_fp_skl_da,all,none,"['ransac_lin_reg', 'ridge']",2,,train_test,3.888381470783983,3.0096970252134216,0.22064862751666792
+Gd_ctopo_fp_skl_da_bonds,all,none,"['resample', 'ridge', 'normalization', 'scaling', 'sgdr']",6,,train_test,4.325976294446709,3.423850992368867,0.03536315695625247
+Gd_ctopo_fp_skl_da_skl,all,none,"['resample', 'ridge', 'normalization', 'isolation_forest_reg', 'ransac_lin_reg', 'lasso']",6,,train_test,3.782568650047074,3.0482800248579878,0.26248779413834755
+Gd_ctopo_fp_skl_da_skl_bonds,all,none,"['poly_features', 'knnreg', 'rfr', 'ridge']",4,,train_test,3.6902855853295504,2.7443382183786666,0.29803488749169904
+Gd_ctopo_fp_topo,all,none,['ridge'],1,,train_test,4.24576547387871,3.5616229074061194,0.07080347519427
+Gd_ctopo_fp_topo_da,all,none,"['resample', 'poly_features', 'ransac_lin_reg', 'sgdr', 'scaling', 'xgboostreg']",6,,train_test,4.1718603286418965,3.3588223327289923,0.10287058841649899
