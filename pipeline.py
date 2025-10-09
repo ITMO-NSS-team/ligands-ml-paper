@@ -1,13 +1,10 @@
-import os
 import json
-import numpy as np
+import os
 import warnings
-from typing import Optional, Any
+from typing import Optional, Any, Callable
 
+import numpy as np
 import pandas as pd
-from fedot import Fedot
-from fedot.core.pipelines.node import PipelineNode
-from fedot.core.pipelines.pipeline import Pipeline
 from sklearn.feature_selection import SelectKBest
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 from sklearn.model_selection import KFold, train_test_split
@@ -17,218 +14,265 @@ from utils import filter_var
 warnings.filterwarnings("ignore", category=UserWarning)
 
 
-class FedotPipeline:
+class FeatureSelector:
+    def __init__(
+            self,
+            score_func: Optional[Callable] = None,
+            k_percent: Optional[float] = None
+    ):
+        self.score_func = score_func
+        self.k_percent = k_percent
+        self.selector: Optional[SelectKBest] = None
+
+    @property
+    def name(self) -> str:
+        return getattr(self.score_func, "__name__", "none") if self.score_func else "none"
+
+    @property
+    def key(self) -> str:
+        return "all" if self.k_percent is None else str(int(round(self.k_percent * 100)))
+
+    def fit_transform(self, X: np.ndarray, y: np.ndarray) -> np.ndarray:
+        if self.score_func is None or self.k_percent is None:
+            return X
+        k_actual = max(1, int(X.shape[1] * self.k_percent))
+        self.selector = SelectKBest(score_func=self.score_func, k=k_actual)
+        return self.selector.fit_transform(X, y)
+
+    def transform(self, X: np.ndarray) -> np.ndarray:
+        if self.selector is None:
+            return X
+        return self.selector.transform(X)
+
+
+class ModelFactory:
+    def __init__(
+            self,
+            model_cls: Callable,
+            model_kwargs: Optional[dict] = None
+    ):
+        self.model_cls = model_cls
+        self.model_kwargs = model_kwargs or {}
+
+    def create(self) -> Any:
+        kwargs = self.model_kwargs.copy()
+        return self.model_cls(**kwargs)
+
+
+class Evaluator:
+    def __init__(
+            self,
+            metrics: dict[str, Callable] | None = None
+    ):
+        if metrics is None:
+            metrics = {
+                "rmse": lambda y_true, y_pred: mean_squared_error(y_true, y_pred, squared=False),
+                "r2": r2_score,
+                "mae": mean_absolute_error,
+            }
+        self.metrics = metrics
+
+    def evaluate(self, y_true: np.ndarray, y_pred: np.ndarray) -> dict[str, float]:
+        return {name: func(y_true, y_pred) for name, func in self.metrics.items()}
+
+
+class CrossValidator:
+    def __init__(
+            self,
+            n_splits: Optional[int],
+            random_state: int,
+            model_factory: ModelFactory,
+            evaluator: Optional[Evaluator] = None,
+            save_path: Optional[str] = None,
+    ):
+        self.n_splits = n_splits
+        self.random_state = random_state
+        self.model_factory = model_factory
+        self.evaluator = evaluator or Evaluator()
+        self.save_path = save_path
+
+    def run(
+        self,
+        X: np.ndarray,
+        y: np.ndarray,
+        selector: FeatureSelector,
+    ) -> Optional[dict[int, dict[str, Any]]]:
+        if self.n_splits is None or self.n_splits < 2:
+            return None  # CV disabled
+
+        results: dict[int, dict[str, Any]] = {}
+        kf = KFold(n_splits=self.n_splits, shuffle=True, random_state=self.random_state)
+
+        for fold, (train_idx, test_idx) in enumerate(kf.split(X)):
+            print(f"\n--- Fold {fold + 1}/{self.n_splits} ---")
+
+            X_train, X_test = X[train_idx], X[test_idx]
+            y_train, y_test = y[train_idx], y[test_idx]
+
+            X_train = selector.fit_transform(X_train, y_train)
+            X_test = selector.transform(X_test)
+
+            model = self.model_factory.create()
+            pipeline = model.fit(X_train, y_train)
+            y_pred = model.predict(X_test)
+
+            results[fold] = self.evaluator.evaluate(y_test, y_pred)
+            results[fold]["n_features"] = X_train.shape[1]
+            results[fold]["pipeline_path"] = None
+
+            if self.save_path is not None:
+                os.makedirs(os.path.dirname(self.save_path), exist_ok=True)
+                pipeline_path = os.path.join(
+                    self.save_path, f"{selector.key}_{selector.name}_fold_{fold}.json"
+                )
+                pipeline.save(
+                    pipeline_path,
+                    create_subdir=True,
+                    is_datetime_in_path=False
+                )
+                results[fold]["pipeline_path"] = pipeline_path
+        return results
+
+
+class ModelTrainer:
+    def __init__(
+            self,
+            random_state: int,
+            model_factory: ModelFactory,
+            evaluator: Optional[Evaluator] = None,
+            save_path: Optional[str] = None,
+    ):
+        self.random_state = random_state
+        self.model_factory = model_factory
+        self.evaluator = evaluator or Evaluator()
+        self.save_path = save_path
+
+    def run(
+        self,
+        X: np.ndarray,
+        y: np.ndarray,
+        selector: FeatureSelector,
+    ) -> dict[str, Any]:
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=0.2, random_state=self.random_state
+        )
+
+        X_train = selector.fit_transform(X_train, y_train)
+        X_test = selector.transform(X_test)
+
+        model = self.model_factory.create()
+        pipeline = model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+
+        scores = self.evaluator.evaluate(y_test, y_pred)
+        scores["n_features"] = X_train.shape[1]
+        scores["pipeline_path"] = None
+
+        if self.save_path is not None:
+            os.makedirs(os.path.dirname(self.save_path), exist_ok=True)
+            pipeline_path = os.path.join(
+                self.save_path, f"{selector.key}_{selector.name}_train_test.json"
+            )
+            pipeline.save(
+                pipeline_path,
+                create_subdir=True,
+                is_datetime_in_path=False
+            )
+            scores["pipeline_path"] = pipeline_path
+
+        return scores
+
+
+class Experiment:
     def __init__(
         self,
-        datasets,
-        target_col,
-        results_dir,
-        n_splits,
-        seed,
-        var_threshold=0.01,
-        fs_func=None,
-        k_percents=None,
-        fedot_kwargs=None,
+        datasets: dict[str, pd.DataFrame],
+        target_col: str,
+        results_dir: str,
+        model_factory: ModelFactory,
+        seed: int = 42,
+        n_splits: Optional[int] = None,
+        var_threshold: float = 0.01,
+        fs_func: Optional[Callable] = None,
+        k_percents: Optional[list[float]] = None,
+        evaluator: Optional[Evaluator] = None,
+        save_pipeline: bool = True,
     ):
         self.datasets = datasets
         self.target_col = target_col
         self.results_dir = results_dir
+        self.model_factory = model_factory
+        self.seed = seed
+        self.n_splits = n_splits
+        self.var_threshold = var_threshold
+        self.fs_func = fs_func
+        self.k_percents = [None] if k_percents is None else k_percents
+        self.evaluator = evaluator or Evaluator()
+        self.save_pipeline = save_pipeline
+
         os.makedirs(results_dir, exist_ok=True)
 
-        self.n_splits = n_splits
-        self.seed = seed
-        self.fs_func = fs_func
-        self.fs_name = getattr(fs_func, "__name__", str(fs_func)) if fs_func else "none"
-        self.k_percents = [None] if k_percents is None else k_percents
-        self.var_threshold = var_threshold
-        self.fedot_kwargs = fedot_kwargs or {}
-
-    def run(self):
+    def run(self) -> dict[str, Any]:
         all_results = {}
         for dataset_name, df in self.datasets.items():
-            X, y = df.drop(columns=[self.target_col]), df[self.target_col].values
-            X = filter_var(X, threshold=self.var_threshold)
-            print(f"\n=== Dataset: {dataset_name} | Samples: {X.shape[0]} | Features: {X.shape[1]} ===")
+            print(f"\n=== Dataset: {dataset_name} ===")
 
-            results = {}
+            X, y = self._prepare_data(df)
             dataset_dir = os.path.join(self.results_dir, dataset_name)
             os.makedirs(dataset_dir, exist_ok=True)
 
-            for p in self.k_percents:
-                key = "all" if p is None else str(int(round(p * 100)))
-                result_file = os.path.join(dataset_dir, f"{key}_{self.fs_name}.json")
+            dataset_results = {}
+            for k_percent in self.k_percents:
+                selector = FeatureSelector(self.fs_func, k_percent)
+                result_file = os.path.join(dataset_dir, f"{selector.key}_{selector.name}.json")
 
                 if os.path.exists(result_file):
-                    print(f"Loading cached results for {dataset_name}, key={key}, fs={self.fs_name}")
+                    print(f"Loading cached results for {dataset_name}, {selector.key}, {selector.name}")
                     with open(result_file, "r") as f:
-                        results[key] = json.load(f)
-                else:
-                    run_result = self._safe_run_fedot(X, y, dataset_name, k_percent=p)
-                    results[key] = {"fs_func": self.fs_name, "k_percent": p, "results": run_result}
+                        dataset_results[selector.key] = json.load(f)
+                    continue
 
-                    with open(result_file, "w") as f:
-                        json.dump(results[key], f, indent=2)
-                        print(f"Results saved to {result_file}")
+                save_path = dataset_dir if self.save_pipeline else None
+                dataset_results[selector.key] = self._run_pipeline(X, y, selector, save_path)
 
-            all_results[dataset_name] = results
+                with open(result_file, "w") as f:
+                    json.dump(dataset_results[selector.key], f, indent=2)
+                    print(f"Results saved to {result_file}")
+
+            all_results[dataset_name] = dataset_results
 
         return all_results
 
-    def _safe_run_fedot(self, X, y, dataset_name, k_percent: Optional[float] = None):
-        if self._invalid_features(X):
-            print("⚠️ Skipping run: all features are constant.")
+    def _prepare_data(self, df: pd.DataFrame) -> tuple[np.ndarray, np.ndarray]:
+        X, y = df.drop(columns=[self.target_col]), df[self.target_col].values
+        X = filter_var(X, threshold=self.var_threshold)
+        return X.values if isinstance(X, pd.DataFrame) else X, y
+
+    def _run_pipeline(
+            self,
+            X: np.ndarray,
+            y: np.ndarray,
+            selector: FeatureSelector,
+            save_path: Optional[str] = None,
+    ) -> dict[str, Any]:
+        if np.all(np.nanstd(X, axis=0) == 0):
             return {"error": "All features constant."}
 
-        return run_fedot(
-            X,
-            y,
-            dataset_name,
-            self.results_dir,
-            n_splits=self.n_splits,
-            k_percent=k_percent,
-            score_func=self.fs_func,
-            random_state=self.seed,
-            fedot_kwargs=self.fedot_kwargs,
+        cv = CrossValidator(
+            self.n_splits,
+            self.seed,
+            self.model_factory,
+            self.evaluator,
+            save_path=save_path
         )
+        cv_scores = cv.run(X, y, selector) if self.n_splits else None
 
-    @staticmethod
-    def _invalid_features(X):
-        return np.all(np.nanstd(X, axis=0) == 0)
+        trainer = ModelTrainer(
+            self.seed,
+            self.model_factory,
+            self.evaluator,
+            save_path=save_path
+        )
+        test_scores = trainer.run(X, y, selector)
 
-
-def init_fedot(
-    problem: str = "regression",
-    timeout: float = 10.0,
-    n_jobs: int = -1,
-    logging_level: int = 50,
-    seed: int = 42,
-    initial_assumption: Optional[Pipeline] = None,
-    cv_folds: int = 10,
-    metric: str = "rmse",
-) -> Fedot:
-    return Fedot(
-        problem=problem,
-        timeout=timeout,
-        n_jobs=n_jobs,
-        logging_level=logging_level,
-        seed=seed,
-        initial_assumption=initial_assumption,
-        cv_folds=cv_folds,
-        metric=metric,
-    )
-
-
-def cross_validate(
-    X: pd.DataFrame | np.ndarray,
-    y: np.ndarray,
-    dataset_name: str,
-    save_path: str,
-    n_splits: int = 5,
-    k_percent: Optional[float] = None,
-    score_func: Optional[Any] = None,
-    random_state: int = 42,
-    fedot_kwargs: Optional[dict[str, Any]] = None,
-) -> dict[int, dict[str, Any]]:
-
-    key = "all" if k_percent is None else str(int(round(k_percent * 100)))
-    fs_name = getattr(score_func, "__name__", "none") if score_func else "none"
-    dataset_dir = os.path.join(save_path, dataset_name)
-    os.makedirs(dataset_dir, exist_ok=True)
-
-    X_values = X.values if isinstance(X, pd.DataFrame) else X
-    fedot_kwargs = fedot_kwargs or {}
-    cv_results: dict[int, dict[str, Any]] = {}
-    kf = KFold(n_splits=n_splits, shuffle=True, random_state=random_state)
-
-    for fold, (train_idx, test_idx) in enumerate(kf.split(X_values)):
-        print(f"\n--- Fold {fold + 1}/{n_splits} ---")
-        model = init_fedot(**fedot_kwargs, seed=random_state)
-
-        X_train, X_test = X_values[train_idx], X_values[test_idx]
-        y_train, y_test = y[train_idx], y[test_idx]
-
-        if score_func is not None and k_percent is not None:
-            k_actual = max(1, int(X_train.shape[1] * k_percent))
-            selector = SelectKBest(score_func=score_func, k=k_actual)
-            X_train = selector.fit_transform(X_train, y_train)
-            X_test = selector.transform(X_test)
-            print(f"Selected {X_train.shape[1]} features using {fs_name} ({key}%)")
-
-        pipeline = model.fit(X_train, y_train)
-        pipeline_path = os.path.join(dataset_dir, f"{key}_{fs_name}_fold_{fold + 1}.json")
-        pipeline.save(pipeline_path, create_subdir=True, is_datetime_in_path=False)
-
-        y_pred = model.predict(X_test)
-        cv_results[fold] = {
-            "rmse": mean_squared_error(y_test, y_pred, squared=False),
-            "r2": r2_score(y_test, y_pred),
-            "mae": mean_absolute_error(y_test, y_pred),
-            "n_features": X_train.shape[1],
-            "pipeline_path": pipeline_path,
-        }
-        print(f"Fold {fold}: RMSE={cv_results[fold]['rmse']:.4f}, "
-              f"R2={cv_results[fold]['r2']:.4f}, MAE={cv_results[fold]['mae']:.4f}")
-        print(f"Pipeline saved to {pipeline_path}")
-
-    return cv_results
-
-
-def run_fedot(
-    X: pd.DataFrame | np.ndarray,
-    y: np.ndarray,
-    dataset_name: str,
-    save_path: str,
-    n_splits: int = 5,
-    k_percent: Optional[float] = None,
-    score_func: Optional[Any] = None,
-    random_state: int = 42,
-    fedot_kwargs: Optional[dict[str, Any]] = None,
-) -> dict[str, Any]:
-
-    key = "all" if k_percent is None else str(int(round(k_percent * 100)))
-    fs_name = getattr(score_func, "__name__", "none") if score_func else "none"
-    dataset_dir = os.path.join(save_path, dataset_name)
-    os.makedirs(dataset_dir, exist_ok=True)
-
-    # cv_scores = cross_validate(
-    #     X, y, dataset_name, save_path,
-    #     n_splits=n_splits,
-    #     k_percent=k_percent,
-    #     score_func=score_func,
-    #     random_state=random_state,
-    #     fedot_kwargs=fedot_kwargs,
-    # )
-    # print("CV results:", cv_scores)
-
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=random_state
-    )
-
-    if score_func is not None and k_percent is not None:
-        k_actual = max(1, int(X_train.shape[1] * k_percent))
-        selector = SelectKBest(score_func=score_func, k=k_actual)
-        X_train = selector.fit_transform(X_train, y_train)
-        X_test = selector.transform(X_test)
-        print(f"Selected {X_train.shape[1]} features using {fs_name} ({key}%)")
-
-    model = init_fedot(**(fedot_kwargs or {}), seed=random_state)
-    pipeline = model.fit(X_train, y_train)
-    y_pred = model.predict(X_test)
-
-    test_rmse = mean_squared_error(y_test, y_pred, squared=False)
-    test_r2 = r2_score(y_test, y_pred)
-    test_mae = mean_absolute_error(y_test, y_pred)
-
-    pipeline_path = os.path.join(dataset_dir, f"{key}_{fs_name}_train_test_pipeline.json")
-    pipeline.save(pipeline_path, create_subdir=True, is_datetime_in_path=False)
-
-    print(f"Test RMSE: {test_rmse:.4f}, R2: {test_r2:.4f}, MAE: {test_mae:.4f}")
-    print(f"Pipeline saved to {pipeline_path}")
-
-    return {
-        "cv_scores": {},
-        "test_rmse": test_rmse,
-        "test_r2": test_r2,
-        "test_mae": test_mae,
-        "pipeline_path": pipeline_path,
-    }
+        return {"cv_scores": cv_scores, "test_scores": test_scores, 'fs_func': selector.name}
