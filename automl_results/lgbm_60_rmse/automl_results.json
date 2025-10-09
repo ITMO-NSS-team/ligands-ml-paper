@@ -1,0 +1,184 @@
+{
+    "Gd_ctopo_fp_cmplx": {
+        "all": {
+            "cv_scores": null,
+            "test_scores": {
+                "rmse": 4.085585543546051,
+                "r2": 0.13959249288248232,
+                "mae": 3.0424992691617065,
+                "n_features": 267,
+                "pipeline_path": "results\\Gd_ctopo_fp_cmplx\\all_none_train_test.json"
+            },
+            "fs_func": "none"
+        }
+    },
+    "Gd_ctopo_fp_cmplx_da": {
+        "all": {
+            "cv_scores": null,
+            "test_scores": {
+                "rmse": 3.6635227606901477,
+                "r2": 0.30817960201455097,
+                "mae": 2.8913759689326897,
+                "n_features": 277,
+                "pipeline_path": "results\\Gd_ctopo_fp_cmplx_da\\all_none_train_test.json"
+            },
+            "fs_func": "none"
+        }
+    },
+    "Gd_ctopo_fp_cmplx_da_bonds": {
+        "all": {
+            "cv_scores": null,
+            "test_scores": {
+                "rmse": 3.5973550144909625,
+                "r2": 0.33294418634877265,
+                "mae": 2.8287722907593373,
+                "n_features": 285,
+                "pipeline_path": "results\\Gd_ctopo_fp_cmplx_da_bonds\\all_none_train_test.json"
+            },
+            "fs_func": "none"
+        }
+    },
+    "Gd_ctopo_fp_cmplx_da_sub": {
+        "all": {
+            "cv_scores": null,
+            "test_scores": {
+                "rmse": 3.6273880564360916,
+                "r2": 0.3217596675320967,
+                "mae": 2.9244006283600283,
+                "n_features": 294,
+                "pipeline_path": "results\\Gd_ctopo_fp_cmplx_da_sub\\all_none_train_test.json"
+            },
+            "fs_func": "none"
+        }
+    },
+    "Gd_ctopo_fp_cmplx_da_sub_bonds": {
+        "all": {
+            "cv_scores": null,
+            "test_scores": {
+                "rmse": 3.978154244633849,
+                "r2": 0.1842467538635123,
+                "mae": 3.0369472985251154,
+                "n_features": 298,
+                "pipeline_path": "results\\Gd_ctopo_fp_cmplx_da_sub_bonds\\all_none_train_test.json"
+            },
+            "fs_func": "none"
+        }
+    },
+    "Gd_ctopo_fp_cmplx_full": {
+        "all": {
+            "cv_scores": null,
+            "test_scores": {
+                "rmse": 3.706151698475429,
+                "r2": 0.29198581622904096,
+                "mae": 2.9596559732058654,
+                "n_features": 301,
+                "pipeline_path": "results\\Gd_ctopo_fp_cmplx_full\\all_none_train_test.json"
+            },
+            "fs_func": "none"
+        }
+    },
+    "Gd_ctopo_fp_ligand": {
+        "all": {
+            "cv_scores": null,
+            "test_scores": {
+                "rmse": 3.828551797438482,
+                "r2": 0.24444753118728335,
+                "mae": 3.06542361378729,
+                "n_features": 262,
+                "pipeline_path": "results\\Gd_ctopo_fp_ligand\\all_none_train_test.json"
+            },
+            "fs_func": "none"
+        }
+    },
+    "Gd_ctopo_fp_skl": {
+        "all": {
+            "cv_scores": null,
+            "test_scores": {
+                "rmse": 3.703555806059119,
+                "r2": 0.2929772947930208,
+                "mae": 2.9563520470996214,
+                "n_features": 51,
+                "pipeline_path": "results\\Gd_ctopo_fp_skl\\all_none_train_test.json"
+            },
+            "fs_func": "none"
+        }
+    },
+    "Gd_ctopo_fp_skl_da": {
+        "all": {
+            "cv_scores": null,
+            "test_scores": {
+                "rmse": 3.953906126737126,
+                "r2": 0.1941609982627509,
+                "mae": 3.0353624688214182,
+                "n_features": 89,
+                "pipeline_path": "results\\Gd_ctopo_fp_skl_da\\all_none_train_test.json"
+            },
+            "fs_func": "none"
+        }
+    },
+    "Gd_ctopo_fp_skl_da_bonds": {
+        "all": {
+            "cv_scores": null,
+            "test_scores": {
+                "rmse": 3.915060713659737,
+                "r2": 0.2099172544642286,
+                "mae": 3.130433392309362,
+                "n_features": 114,
+                "pipeline_path": "results\\Gd_ctopo_fp_skl_da_bonds\\all_none_train_test.json"
+            },
+            "fs_func": "none"
+        }
+    },
+    "Gd_ctopo_fp_skl_da_skl": {
+        "all": {
+            "cv_scores": null,
+            "test_scores": {
+                "rmse": 3.808629310413757,
+                "r2": 0.25229035063205185,
+                "mae": 3.0544620048869433,
+                "n_features": 104,
+                "pipeline_path": "results\\Gd_ctopo_fp_skl_da_skl\\all_none_train_test.json"
+            },
+            "fs_func": "none"
+        }
+    },
+    "Gd_ctopo_fp_skl_da_skl_bonds": {
+        "all": {
+            "cv_scores": null,
+            "test_scores": {
+                "rmse": 3.791404641861571,
+                "r2": 0.25903814719695306,
+                "mae": 3.0320787849634327,
+                "n_features": 124,
+                "pipeline_path": "results\\Gd_ctopo_fp_skl_da_skl_bonds\\all_none_train_test.json"
+            },
+            "fs_func": "none"
+        }
+    },
+    "Gd_ctopo_fp_topo": {
+        "all": {
+            "cv_scores": null,
+            "test_scores": {
+                "rmse": 4.263308500046637,
+                "r2": 0.06310894009400647,
+                "mae": 3.574706377523954,
+                "n_features": 61,
+                "pipeline_path": "results\\Gd_ctopo_fp_topo\\all_none_train_test.json"
+            },
+            "fs_func": "none"
+        }
+    },
+    "Gd_ctopo_fp_topo_da": {
+        "all": {
+            "cv_scores": null,
+            "test_scores": {
+                "rmse": 4.031231380493766,
+                "r2": 0.16233373269917073,
+                "mae": 3.218736897213354,
+                "n_features": 85,
+                "pipeline_path": "results\\Gd_ctopo_fp_topo_da\\all_none_train_test.json"
+            },
+            "fs_func": "none"
+        }
+    }
+}

@@ -1,0 +1,15 @@
+dataset,features_percent,fs_func,pipeline_ops,depth,fold,stage,rmse,mae,r2
+Gd_ctopo_fp_cmplx,all,none,"['scaling', 'ransac_non_lin_reg', 'rfr']",2,,train_test,3.654999151784962,2.75772269720338,0.3113950572411417
+Gd_ctopo_fp_cmplx_da,all,none,"['resample', 'isolation_forest_reg', 'ridge', 'sgdr']",4,,train_test,3.790054136307362,3.0104334509128763,0.259565917230143
+Gd_ctopo_fp_cmplx_da_bonds,all,none,['rfr'],1,,train_test,3.7147640610013775,2.768918826421618,0.28869142343828225
+Gd_ctopo_fp_cmplx_da_sub,all,none,"['isolation_forest_reg', 'ridge']",2,,train_test,3.616687331441324,2.929547460084663,0.3257553570926359
+Gd_ctopo_fp_cmplx_da_sub_bonds,all,none,"['ransac_lin_reg', 'isolation_forest_reg', 'ridge']",3,,train_test,3.577282365100907,2.9098003514524873,0.34036754133990255
+Gd_ctopo_fp_cmplx_full,all,none,"['resample', 'poly_features', 'rfr']",3,,train_test,3.687651285502456,2.9208284575325085,0.2990367213679592
+Gd_ctopo_fp_ligand,all,none,['lgbmreg'],1,,train_test,3.9013705956643894,3.068727425943538,0.21543308966034524
+Gd_ctopo_fp_skl,all,none,"['resample', 'ransac_lin_reg', 'dtreg']",3,,train_test,3.859938255507875,3.024633376061658,0.23200871814632062
+Gd_ctopo_fp_skl_da,all,none,"['ransac_lin_reg', 'poly_features', 'ridge']",3,,train_test,3.960454865670154,3.0416569802011564,0.19148941257747376
+Gd_ctopo_fp_skl_da_bonds,all,none,"['resample', 'poly_features', 'ridge']",3,,train_test,3.893903406404613,3.123685477261358,0.21843352394097937
+Gd_ctopo_fp_skl_da_skl,all,none,"['ransac_lin_reg', 'adareg', 'ridge']",3,,train_test,3.9417739012353095,3.073737840155019,0.19909870836970822
+Gd_ctopo_fp_skl_da_skl_bonds,all,none,"['ridge', 'adareg']",2,,train_test,4.1068860335718815,3.1515210458570793,0.1305975147333115
+Gd_ctopo_fp_topo,all,none,"['resample', 'isolation_forest_reg', 'sgdr']",3,,train_test,4.102172889991985,3.4190333752750863,0.1325918566527986
+Gd_ctopo_fp_topo_da,all,none,"['poly_features', 'isolation_forest_reg', 'sgdr']",3,,train_test,3.992396925258368,3.189369517305221,0.17839513993758882
