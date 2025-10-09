@@ -27,7 +27,7 @@ def load_datasets(path: str) -> dict[str, pd.DataFrame]:
 def filter_var(
         x: pd.DataFrame,
         threshold: float = 0.01
-) -> tuple[np.ndarray, np.ndarray]:
+) -> np.ndarray:
     selector = VarianceThreshold(threshold=threshold)
     x_filtered = selector.fit_transform(x)
 

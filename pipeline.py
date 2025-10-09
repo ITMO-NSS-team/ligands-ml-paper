@@ -246,7 +246,7 @@ class Experiment:
     def _prepare_data(self, df: pd.DataFrame) -> tuple[np.ndarray, np.ndarray]:
         X, y = df.drop(columns=[self.target_col]), df[self.target_col].values
         X = filter_var(X, threshold=self.var_threshold)
-        return X.values if isinstance(X, pd.DataFrame) else X, y
+        return X, y
 
     def _run_pipeline(
             self,
