@@ -25,14 +25,14 @@ def load_datasets(path: str) -> dict[str, pd.DataFrame]:
 
 
 def filter_var(
-        x: pd.DataFrame,
+        x: np.ndarray,
         threshold: float = 0.01
-) -> np.ndarray:
+) -> tuple[np.ndarray, VarianceThreshold]:
     selector = VarianceThreshold(threshold=threshold)
     x_filtered = selector.fit_transform(x)
 
     n_removed = x.shape[1] - x_filtered.shape[1]
     print(f"Removed {n_removed} low-variance features "
-          f"(kept {x_filtered.shape[1]} of {len(x.columns)})")
+          f"(kept {x_filtered.shape[1]} of {x.shape[1]})")
 
-    return x_filtered
+    return x_filtered, selector

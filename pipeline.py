@@ -84,12 +84,14 @@ class CrossValidator:
             model_factory: ModelFactory,
             evaluator: Optional[Evaluator] = None,
             save_path: Optional[str] = None,
+            var_threshold: float = 0.00,
     ):
         self.n_splits = n_splits
         self.random_state = random_state
         self.model_factory = model_factory
         self.evaluator = evaluator or Evaluator()
         self.save_path = save_path
+        self.var_threshold = var_threshold
 
     def run(
         self,
@@ -108,6 +110,10 @@ class CrossValidator:
 
             X_train, X_test = X[train_idx], X[test_idx]
             y_train, y_test = y[train_idx], y[test_idx]
+
+            X_filtered, var_selector = filter_var(X_train, threshold=self.var_threshold)
+            X_train = X_filtered
+            X_test = var_selector.transform(X_test)
 
             X_train = selector.fit_transform(X_train, y_train)
             X_test = selector.transform(X_test)
@@ -141,11 +147,13 @@ class ModelTrainer:
             model_factory: ModelFactory,
             evaluator: Optional[Evaluator] = None,
             save_path: Optional[str] = None,
+            var_threshold: float = 0.00,
     ):
         self.random_state = random_state
         self.model_factory = model_factory
         self.evaluator = evaluator or Evaluator()
         self.save_path = save_path
+        self.var_threshold = var_threshold
 
     def run(
         self,
@@ -156,6 +164,10 @@ class ModelTrainer:
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=0.2, random_state=self.random_state
         )
+
+        X_filtered, var_selector = filter_var(X_train, threshold=self.var_threshold)
+        X_train = X_filtered
+        X_test = var_selector.transform(X_test)
 
         X_train = selector.fit_transform(X_train, y_train)
         X_test = selector.transform(X_test)
@@ -217,7 +229,7 @@ class Experiment:
         for dataset_name, df in self.datasets.items():
             print(f"\n=== Dataset: {dataset_name} ===")
 
-            X, y = self._prepare_data(df)
+            X, y = df.drop(columns=[self.target_col]).values, df[self.target_col].values
             dataset_dir = os.path.join(self.results_dir, dataset_name)
             os.makedirs(dataset_dir, exist_ok=True)
 
@@ -243,11 +255,6 @@ class Experiment:
 
         return all_results
 
-    def _prepare_data(self, df: pd.DataFrame) -> tuple[np.ndarray, np.ndarray]:
-        X, y = df.drop(columns=[self.target_col]), df[self.target_col].values
-        X = filter_var(X, threshold=self.var_threshold)
-        return X, y
-
     def _run_pipeline(
             self,
             X: np.ndarray,
@@ -263,7 +270,8 @@ class Experiment:
             self.seed,
             self.model_factory,
             self.evaluator,
-            save_path=save_path
+            save_path=save_path,
+            var_threshold=self.var_threshold,
         )
         cv_scores = cv.run(X, y, selector) if self.n_splits else None
 
@@ -271,7 +279,8 @@ class Experiment:
             self.seed,
             self.model_factory,
             self.evaluator,
-            save_path=save_path
+            save_path=save_path,
+            var_threshold=self.var_threshold,
         )
         test_scores = trainer.run(X, y, selector)
 
