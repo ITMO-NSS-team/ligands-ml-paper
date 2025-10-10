@@ -1,15 +1,15 @@
 dataset,features_percent,fs_func,pipeline_ops,depth,fold,stage,rmse,mae,r2
-Gd_ctopo_fp_cmplx,all,none,"['resample', 'poly_features', 'catboostreg']",4,,train_test,4.085585543546051,3.0424992691617065,0.13959249288248232
-Gd_ctopo_fp_cmplx_da,all,none,"['isolation_forest_reg', 'catboostreg']",2,,train_test,3.6635227606901477,2.8913759689326897,0.30817960201455097
-Gd_ctopo_fp_cmplx_da_bonds,all,none,"['isolation_forest_reg', 'catboostreg']",2,,train_test,3.5973550144909625,2.8287722907593373,0.33294418634877265
-Gd_ctopo_fp_cmplx_da_sub,all,none,"['resample', 'isolation_forest_reg', 'ridge']",3,,train_test,3.6273880564360916,2.9244006283600283,0.3217596675320967
-Gd_ctopo_fp_cmplx_da_sub_bonds,all,none,"['resample', 'isolation_forest_reg', 'ransac_lin_reg', 'adareg', 'catboostreg']",5,,train_test,3.978154244633849,3.0369472985251154,0.1842467538635123
-Gd_ctopo_fp_cmplx_full,all,none,"['isolation_forest_reg', 'catboostreg']",2,,train_test,3.706151698475429,2.9596559732058654,0.29198581622904096
-Gd_ctopo_fp_ligand,all,none,"['scaling', 'poly_features', 'lgbmreg']",4,,train_test,3.828551797438482,3.06542361378729,0.24444753118728335
-Gd_ctopo_fp_skl,all,none,"['resample', 'scaling', 'ransac_lin_reg', 'svr']",5,,train_test,3.703555806059119,2.9563520470996214,0.2929772947930208
-Gd_ctopo_fp_skl_da,all,none,"['ridge', 'knnreg', 'catboostreg']",3,,train_test,3.953906126737126,3.0353624688214182,0.1941609982627509
-Gd_ctopo_fp_skl_da_bonds,all,none,"['resample', 'ransac_non_lin_reg', 'ridge']",3,,train_test,3.915060713659737,3.130433392309362,0.2099172544642286
-Gd_ctopo_fp_skl_da_skl,all,none,"['resample', 'ridge', 'normalization', 'sgdr']",4,,train_test,3.808629310413757,3.0544620048869433,0.25229035063205185
-Gd_ctopo_fp_skl_da_skl_bonds,all,none,"['resample', 'isolation_forest_reg', 'ridge', 'pca', 'lasso']",4,,train_test,3.791404641861571,3.0320787849634327,0.25903814719695306
-Gd_ctopo_fp_topo,all,none,['ridge'],1,,train_test,4.263308500046637,3.574706377523954,0.06310894009400647
-Gd_ctopo_fp_topo_da,all,none,"['resample', 'ransac_non_lin_reg', 'sgdr']",3,,train_test,4.031231380493766,3.218736897213354,0.16233373269917073
+Gd_ctopo_fp_cmplx,all,none,['ridge'],1,,train_test,3.7000244221253884,2.905023586095317,0.2943249608758559
+Gd_ctopo_fp_cmplx_da,all,none,['svr'],1,,train_test,3.804128869916897,3.073609974559828,0.2540563584967481
+Gd_ctopo_fp_cmplx_da_bonds,all,none,"['resample', 'pca', 'normalization', 'ridge']",4,,train_test,3.825553988041955,2.9988089725840292,0.24563028416866695
+Gd_ctopo_fp_cmplx_da_sub,all,none,['ridge'],1,,train_test,3.5778469317177755,2.8250611705967676,0.340159318552803
+Gd_ctopo_fp_cmplx_da_sub_bonds,all,none,"['catboostreg', 'linear', 'lasso']",3,,train_test,4.1230027245888206,3.1275740541475554,0.12376051725780735
+Gd_ctopo_fp_cmplx_full,all,none,"['resample', 'catboostreg', 'svr']",3,,train_test,4.06467894230863,3.09857347687298,0.14837565123648289
+Gd_ctopo_fp_ligand,all,none,"['resample', 'lgbmreg', 'svr']",3,,train_test,3.8247104583573828,2.9980138777704806,0.24596292257612784
+Gd_ctopo_fp_skl,all,none,"['dtreg', 'ransac_lin_reg', 'catboostreg']",3,,train_test,3.845037555160412,3.047316540844892,0.23792669872349792
+Gd_ctopo_fp_skl_da,all,none,"['resample', 'scaling', 'ridge']",3,,train_test,3.875199071145345,3.0110284186302763,0.2259239876281034
+Gd_ctopo_fp_skl_da_bonds,all,none,"['svr', 'ridge', 'isolation_forest_reg', 'lasso']",3,,train_test,3.811478879433626,3.0845033971807267,0.25117107797936256
+Gd_ctopo_fp_skl_da_skl,all,none,['ridge'],1,,train_test,3.8612891401774663,3.0857538676827416,0.23147106747701318
+Gd_ctopo_fp_skl_da_skl_bonds,all,none,"['isolation_forest_reg', 'normalization', 'ridge']",3,,train_test,3.8509160368642763,3.127333501722823,0.23559472750656862
+Gd_ctopo_fp_topo,all,none,"['resample', 'lgbmreg', 'rfr']",3,,train_test,4.381315774589667,3.683981333614024,0.010525320564189089
+Gd_ctopo_fp_topo_da,all,none,"['resample', 'isolation_forest_reg', 'sgdr']",3,,train_test,3.9181895031073046,3.1442032595936436,0.2086539328915067

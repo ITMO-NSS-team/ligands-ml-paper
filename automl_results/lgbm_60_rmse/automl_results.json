@@ -3,10 +3,10 @@
         "all": {
             "cv_scores": null,
             "test_scores": {
-                "rmse": 4.085585543546051,
-                "r2": 0.13959249288248232,
-                "mae": 3.0424992691617065,
-                "n_features": 267,
+                "rmse": 3.7000244221253884,
+                "r2": 0.2943249608758559,
+                "mae": 2.905023586095317,
+                "n_features": 506,
                 "pipeline_path": "results\\Gd_ctopo_fp_cmplx\\all_none_train_test.json"
             },
             "fs_func": "none"
@@ -16,10 +16,10 @@
         "all": {
             "cv_scores": null,
             "test_scores": {
-                "rmse": 3.6635227606901477,
-                "r2": 0.30817960201455097,
-                "mae": 2.8913759689326897,
-                "n_features": 277,
+                "rmse": 3.804128869916897,
+                "r2": 0.2540563584967481,
+                "mae": 3.073609974559828,
+                "n_features": 544,
                 "pipeline_path": "results\\Gd_ctopo_fp_cmplx_da\\all_none_train_test.json"
             },
             "fs_func": "none"
@@ -29,10 +29,10 @@
         "all": {
             "cv_scores": null,
             "test_scores": {
-                "rmse": 3.5973550144909625,
-                "r2": 0.33294418634877265,
-                "mae": 2.8287722907593373,
-                "n_features": 285,
+                "rmse": 3.825553988041955,
+                "r2": 0.24563028416866695,
+                "mae": 2.9988089725840292,
+                "n_features": 551,
                 "pipeline_path": "results\\Gd_ctopo_fp_cmplx_da_bonds\\all_none_train_test.json"
             },
             "fs_func": "none"
@@ -42,10 +42,10 @@
         "all": {
             "cv_scores": null,
             "test_scores": {
-                "rmse": 3.6273880564360916,
-                "r2": 0.3217596675320967,
-                "mae": 2.9244006283600283,
-                "n_features": 294,
+                "rmse": 3.5778469317177755,
+                "r2": 0.340159318552803,
+                "mae": 2.8250611705967676,
+                "n_features": 610,
                 "pipeline_path": "results\\Gd_ctopo_fp_cmplx_da_sub\\all_none_train_test.json"
             },
             "fs_func": "none"
@@ -55,10 +55,10 @@
         "all": {
             "cv_scores": null,
             "test_scores": {
-                "rmse": 3.978154244633849,
-                "r2": 0.1842467538635123,
-                "mae": 3.0369472985251154,
-                "n_features": 298,
+                "rmse": 4.1230027245888206,
+                "r2": 0.12376051725780735,
+                "mae": 3.1275740541475554,
+                "n_features": 603,
                 "pipeline_path": "results\\Gd_ctopo_fp_cmplx_da_sub_bonds\\all_none_train_test.json"
             },
             "fs_func": "none"
@@ -68,10 +68,10 @@
         "all": {
             "cv_scores": null,
             "test_scores": {
-                "rmse": 3.706151698475429,
-                "r2": 0.29198581622904096,
-                "mae": 2.9596559732058654,
-                "n_features": 301,
+                "rmse": 4.06467894230863,
+                "r2": 0.14837565123648289,
+                "mae": 3.09857347687298,
+                "n_features": 610,
                 "pipeline_path": "results\\Gd_ctopo_fp_cmplx_full\\all_none_train_test.json"
             },
             "fs_func": "none"
@@ -81,10 +81,10 @@
         "all": {
             "cv_scores": null,
             "test_scores": {
-                "rmse": 3.828551797438482,
-                "r2": 0.24444753118728335,
-                "mae": 3.06542361378729,
-                "n_features": 262,
+                "rmse": 3.8247104583573828,
+                "r2": 0.24596292257612784,
+                "mae": 2.9980138777704806,
+                "n_features": 501,
                 "pipeline_path": "results\\Gd_ctopo_fp_ligand\\all_none_train_test.json"
             },
             "fs_func": "none"
@@ -94,10 +94,10 @@
         "all": {
             "cv_scores": null,
             "test_scores": {
-                "rmse": 3.703555806059119,
-                "r2": 0.2929772947930208,
-                "mae": 2.9563520470996214,
-                "n_features": 51,
+                "rmse": 3.845037555160412,
+                "r2": 0.23792669872349792,
+                "mae": 3.047316540844892,
+                "n_features": 65,
                 "pipeline_path": "results\\Gd_ctopo_fp_skl\\all_none_train_test.json"
             },
             "fs_func": "none"
@@ -107,10 +107,10 @@
         "all": {
             "cv_scores": null,
             "test_scores": {
-                "rmse": 3.953906126737126,
-                "r2": 0.1941609982627509,
-                "mae": 3.0353624688214182,
-                "n_features": 89,
+                "rmse": 3.875199071145345,
+                "r2": 0.2259239876281034,
+                "mae": 3.0110284186302763,
+                "n_features": 118,
                 "pipeline_path": "results\\Gd_ctopo_fp_skl_da\\all_none_train_test.json"
             },
             "fs_func": "none"
@@ -120,10 +120,10 @@
         "all": {
             "cv_scores": null,
             "test_scores": {
-                "rmse": 3.915060713659737,
-                "r2": 0.2099172544642286,
-                "mae": 3.130433392309362,
-                "n_features": 114,
+                "rmse": 3.811478879433626,
+                "r2": 0.25117107797936256,
+                "mae": 3.0845033971807267,
+                "n_features": 154,
                 "pipeline_path": "results\\Gd_ctopo_fp_skl_da_bonds\\all_none_train_test.json"
             },
             "fs_func": "none"
@@ -133,10 +133,10 @@
         "all": {
             "cv_scores": null,
             "test_scores": {
-                "rmse": 3.808629310413757,
-                "r2": 0.25229035063205185,
-                "mae": 3.0544620048869433,
-                "n_features": 104,
+                "rmse": 3.8612891401774663,
+                "r2": 0.23147106747701318,
+                "mae": 3.0857538676827416,
+                "n_features": 146,
                 "pipeline_path": "results\\Gd_ctopo_fp_skl_da_skl\\all_none_train_test.json"
             },
             "fs_func": "none"
@@ -146,10 +146,10 @@
         "all": {
             "cv_scores": null,
             "test_scores": {
-                "rmse": 3.791404641861571,
-                "r2": 0.25903814719695306,
-                "mae": 3.0320787849634327,
-                "n_features": 124,
+                "rmse": 3.8509160368642763,
+                "r2": 0.23559472750656862,
+                "mae": 3.127333501722823,
+                "n_features": 174,
                 "pipeline_path": "results\\Gd_ctopo_fp_skl_da_skl_bonds\\all_none_train_test.json"
             },
             "fs_func": "none"
@@ -159,10 +159,10 @@
         "all": {
             "cv_scores": null,
             "test_scores": {
-                "rmse": 4.263308500046637,
-                "r2": 0.06310894009400647,
-                "mae": 3.574706377523954,
-                "n_features": 61,
+                "rmse": 4.381315774589667,
+                "r2": 0.010525320564189089,
+                "mae": 3.683981333614024,
+                "n_features": 96,
                 "pipeline_path": "results\\Gd_ctopo_fp_topo\\all_none_train_test.json"
             },
             "fs_func": "none"
@@ -172,10 +172,10 @@
         "all": {
             "cv_scores": null,
             "test_scores": {
-                "rmse": 4.031231380493766,
-                "r2": 0.16233373269917073,
-                "mae": 3.218736897213354,
-                "n_features": 85,
+                "rmse": 3.9181895031073046,
+                "r2": 0.2086539328915067,
+                "mae": 3.1442032595936436,
+                "n_features": 153,
                 "pipeline_path": "results\\Gd_ctopo_fp_topo_da\\all_none_train_test.json"
             },
             "fs_func": "none"
