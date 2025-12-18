@@ -24,6 +24,33 @@ def load_datasets(path: str) -> dict[str, pd.DataFrame]:
     return datasets
 
 
+def load_v3_datasets(path: str) -> dict[str, dict[str, pd.DataFrame]]:
+    result = {}
+
+    for root, dirs, files in os.walk(path):
+        rel = os.path.relpath(root, path)
+
+        if rel == ".":
+            continue
+
+        section_name = rel.replace(os.sep, "_")
+
+        csv_files = [f for f in files if f.endswith(".csv")]
+        if not csv_files:
+            continue
+
+        section_dict = {}
+        for file in csv_files:
+            file_path = os.path.join(root, file)
+            df = pd.read_csv(file_path)
+            csv_name = os.path.splitext(file)[0]
+            section_dict[csv_name] = df
+
+        result[section_name] = section_dict
+
+    return result
+
+
 def filter_var(
         x: np.ndarray,
         threshold: float = 0.01
